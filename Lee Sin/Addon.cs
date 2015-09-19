@@ -40,7 +40,7 @@ namespace LeeSin
         }
         public void setUp_Menu()
         {
-            string currentVersion = "0.5";
+            string currentVersion = "0.7";
             Chat.Print("LeeSin - Neva Series LOADED.");
             Chat.Print("Checking version..");
             if (new WebClient().DownloadString("http://pastebin.com/raw.php?i=WeD1mMzH") != currentVersion)
@@ -49,7 +49,7 @@ namespace LeeSin
                 Chat.Print("You have the last version of LeeSin script.");
             Game.Drop();
             myMenu = MainMenu.AddMenu("LeeSin -", "title");
-            myMenu.AddLabel("NevaBudy :D - Press C to insec,if you're close of target it will be more accurate.");
+            myMenu.AddLabel("NevaBudy :D - Press C to insec,if you're close of target it will be more accurate. Press SPACE for combo. press T for wardjump.");
 
            comboMenu =myMenu.AddSubMenu("Combo settings","comboSection");
            comboMenu.AddGroupLabel("Configuration");
@@ -61,7 +61,6 @@ namespace LeeSin
            comboMenu.Add("combo.E", new CheckBox("Use E"));
 
            smiteMenu = myMenu.AddSubMenu("Smite settings", "smiteSection");
-           smiteMenu.AddGroupLabel("Smite here");
            smiteMenu.AddSeparator();
            comboMenu.Add("smite.RED", new CheckBox("Smite RED"));
            comboMenu.Add("smite.BLUE", new CheckBox("smite BLUE"));
@@ -92,6 +91,10 @@ namespace LeeSin
             if (Orbwalker.ActiveModesFlags == Orbwalker.ActiveModes.Harass)
             {
                 insec();
+            }
+            if (Orbwalker.ActiveModesFlags == Orbwalker.ActiveModes.Flee)
+            {
+                jump();
             }
 
         }
@@ -157,6 +160,18 @@ namespace LeeSin
                 }
             }
         }
+        public void jump()
+        {
+            if (W.IsReady())
+            {
+                foreach (var ward in ObjectManager.Get<Obj_Ward>())
+                {
+
+                    W.Cast(ward);
+
+                }
+            }
+        }
         public void castWinWard(GameObject sender,EventArgs arg)
         {
            
@@ -178,15 +193,6 @@ namespace LeeSin
             if (E.IsReady() && E.IsInRange(target))
             {
                 E.Cast();
-            }
-            if(useW && W.IsReady())
-            {
-                foreach (var ward in ObjectManager.Get<Obj_Ward>())
-                {
-               
-                        W.Cast(ward);
-                   
-                }
             }
             if (useR && R.IsReady())
             {
