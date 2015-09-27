@@ -22,4 +22,3 @@ C:\Users\Nevachana\Desktop\EB\obj\Debug\LeeSin.exe
 C:\Users\Nevachana\Desktop\EB\obj\Debug\LeeSin.pdb
 C:\Users\Nevachana\Desktop\EB\bin\Debug\LeeSin.exe
 C:\Users\Nevachana\Desktop\EB\bin\Debug\LeeSin.pdb
-C:\Users\Nevachana\Desktop\EB\obj\Debug\LeeSin.csprojResolveAssemblyReference.cache
