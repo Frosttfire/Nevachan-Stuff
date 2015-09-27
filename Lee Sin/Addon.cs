@@ -46,7 +46,7 @@ namespace LeeSin
         public void setUp_Menu()
         {
 
-            string currentVersion = "0.85";
+            string currentVersion = "0.87";
             Chat.Print("LeeSin2 - Neva Series LOADED.");
             Chat.Print("Checking version..");
             if (new WebClient().DownloadString("http://pastebin.com/raw.php?i=WeD1mMzH") != currentVersion)
@@ -62,7 +62,7 @@ namespace LeeSin
             myMenu.AddLabel("  V for jungleCLear. ");
             myMenu.AddLabel("  Z for laneleCLear. ");
 
-            myMenu.AddLabel(" More coming soon.. Actual version: 0.85");
+            myMenu.AddLabel(" More coming soon.. Actual version: 0.87");
 
            comboMenu =myMenu.AddSubMenu("Combo settings","comboSection");
            comboMenu.AddGroupLabel("Configuration");
@@ -209,6 +209,7 @@ namespace LeeSin
             "SRU_Blue",
             "SRU_Red",
             "SRU_Baron",
+            "SRU_Dragon",
               "SRU_Murkwolf", 
               "SRU_Razorbeak", 
               "SRU_Gromp", 
@@ -324,42 +325,42 @@ namespace LeeSin
                 }
                 else
                 {
-                    if (!castedQ && Q.IsReady())
-                    {
-                        if (Q.GetPrediction(target).HitChance >= HitChance.Collision)
-                        {
-                            foreach (var minions in ObjectManager.Get<Obj_AI_Minion>().Where(m => m.IsValidTarget(Q.Range) && Q.GetPrediction(m).HitChance >= HitChance.Medium).ToArray())
-                            {
-                                if (minions.CountEnemiesInRange(Q.Range) <= 1)
-                                    smite.Cast(minions);
-                                Q.Cast(target);
-                                hasStarted = true;
-                                 castedQ = true;
-                            }
+                    //if (!castedQ && Q.IsReady())
+                    //{
+                    //    if (Q.GetPrediction(target).HitChance >= HitChance.Collision)
+                    //    {
+                    //        foreach (var minions in ObjectManager.Get<Obj_AI_Minion>().Where(m => m.IsValidTarget(Q.Range) && Q.GetPrediction(m).HitChance >= HitChance.Medium).ToArray())
+                    //        {
+                    //            if (minions.CountEnemiesInRange(Q.Range) <= 1)
+                    //                smite.Cast(minions);
+                    //            Q.Cast(target);
+                    //            hasStarted = true;
+                    //             castedQ = true;
+                    //        }
 
-                        }
-                        else if (Q.GetPrediction(target).HitChance >= HitChance.Medium)
-                        {
-                            Q.Cast(target);
-                            hasStarted = true;
-                            castedQ = true;
-                        }
-                    }
-                    if (target.HasBuff("BlindMonkQOne") && Q.IsReady() && castedQ)
-                    {
-                        Q.Cast(target);
-                    }
-                    if (castedQ && W.IsInRange(insec(target).To3D()) && W.IsReady() && !castedW)
-                    {
+                    //    }
+                    //    else if (Q.GetPrediction(target).HitChance >= HitChance.Medium)
+                    //    {
+                    //        Q.Cast(target);
+                    //        hasStarted = true;
+                    //        castedQ = true;
+                    //    }
+                    //}
+                    //if (target.HasBuff("BlindMonkQOne") && Q.IsReady() && castedQ)
+                    //{
+                    //    Q.Cast(target);
+                    //}
+                    //if (castedQ && W.IsInRange(insec(target).To3D()) && W.IsReady() && !castedW)
+                    //{
 
-                            jump(insec(target).To3D());
-                            castedW = true;
-                    }
-                    if (R.IsInRange(target.Position) && castedW && castedQ && R.IsReady() && !castedR)
-                    {
-                        Core.DelayAction(() => R.Cast(target), 500) ;
-                        castedR = true;                
-                    }
+                    //        jump(insec(target).To3D());
+                    //        castedW = true;
+                    //}
+                    //if (R.IsInRange(target.Position) && castedW && castedQ && R.IsReady() && !castedR)
+                    //{
+                    //    Core.DelayAction(() => R.Cast(target), 500) ;
+                    //    castedR = true;                
+                    //}
                 
             }
         }
