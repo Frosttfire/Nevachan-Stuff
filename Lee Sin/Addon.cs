@@ -28,7 +28,6 @@ namespace LeeSin
 
         private Spell.Targeted smite;
         private Spell.Targeted placeWard;
-        private Spell.Targeted placeWard2;
 
 
         private Menu myMenu;
@@ -46,15 +45,15 @@ namespace LeeSin
         public void setUp_Menu()
         {
 
-            string currentVersion = "0.87";
-            Chat.Print("LeeSin2 - Neva Series LOADED.");
+            string currentVersion = "0.9";
+            Chat.Print("LeeSin - Neva Series LOADED.");
             Chat.Print("Checking version..");
             if (new WebClient().DownloadString("http://pastebin.com/raw.php?i=WeD1mMzH") != currentVersion)
                 Chat.Print("OLD VERSION!");
             else
                 Chat.Print("You have the last version of LeeSin script.");
             Game.Drop();
-            myMenu = MainMenu.AddMenu("LeeSin - NevaSeries", "title");
+            myMenu = MainMenu.AddMenu("NevaSeries", "title");
             myMenu.AddLabel("  NevaBudy :D ");
             myMenu.AddLabel("  SpaceBar for starCombo. ");
             myMenu.AddLabel("  C for insec. ");
@@ -62,7 +61,7 @@ namespace LeeSin
             myMenu.AddLabel("  V for jungleCLear. ");
             myMenu.AddLabel("  Z for laneleCLear. ");
 
-            myMenu.AddLabel(" More coming soon.. Actual version: 0.87");
+            myMenu.AddLabel(" More coming soon.. Actual version: 0.9");
 
            comboMenu =myMenu.AddSubMenu("Combo settings","comboSection");
            comboMenu.AddGroupLabel("Configuration");
@@ -72,8 +71,10 @@ namespace LeeSin
            comboMenu.Add("combo.W", new CheckBox("Use W"));
            comboMenu.Add("combo.R", new CheckBox("Use R"));
            comboMenu.Add("combo.E", new CheckBox("Use E"));
+           comboMenu.Add("combo.R", new CheckBox("Use R"));
+           comboMenu.Add("auto.R", new CheckBox("Auto R"));
            comboMenu.Add("ks.R", new CheckBox("R for ks"));
-            
+           comboMenu.Add("ks.Smite", new CheckBox("Smite for ks"));
 
            smiteMenu = myMenu.AddSubMenu("Smite settings", "smiteSection");
            smiteMenu.AddGroupLabel("Smite settings");
@@ -98,6 +99,7 @@ namespace LeeSin
             draws.Add("draw.W", new CheckBox("Draw W range"));
             draws.Add("draw.R", new CheckBox("Draw R range"));
             draws.Add("draw.target", new CheckBox("Draw current Target"));
+            draws.Add("draw.chroma", new CheckBox("CHROMA!"));
            Game.OnTick += actives;
            Game.OnUpdate += gameUpdate;
            Drawing.OnDraw += onDraw;
@@ -107,32 +109,52 @@ namespace LeeSin
         //{            
            
         //}
+        public List<Color> drawSettings = new List<Color>
+        {
+         Color.Red,
+         Color.Green,
+         Color.Blue,
+         Color.Yellow,
+         Color.Purple,
+         Color.Pink,
+         
+        };
         public void onDraw(EventArgs args)
         {
             Boolean drawQ = draws["draw.Q"].Cast<CheckBox>().CurrentValue;
             Boolean drawW = draws["draw.W"].Cast<CheckBox>().CurrentValue;
             Boolean drawR = draws["draw.R"].Cast<CheckBox>().CurrentValue;
             Boolean drawTarget = draws["draw.target"].Cast<CheckBox>().CurrentValue;
+            Boolean chroma = draws["draw.chroma"].Cast<CheckBox>().CurrentValue;
             if (drawQ)
             {
+
+                    if(chroma)
+                        Circle.Draw(drawSettings[new Random().Next(0,drawSettings.Count)], Q.Range, ObjectManager.Player.Position);
+                    else 
                 Circle.Draw(Color.Green, Q.Range, ObjectManager.Player.Position);
 
 
             }
             if (drawW)
             {
+                if (chroma)
+                    Circle.Draw(drawSettings[new Random().Next(0, drawSettings.Count)], W.Range, ObjectManager.Player.Position);
+                else
                 Circle.Draw(Color.Green, W.Range, ObjectManager.Player.Position);
             }
             if (drawR)
             {
+                if (chroma)
+                    Circle.Draw(drawSettings[new Random().Next(0, drawSettings.Count)], R.Range, ObjectManager.Player.Position);
+                else
+                    Circle.Draw(Color.Green, R.Range, ObjectManager.Player.Position);
 
-                Circle.Draw(Color.Green, R.Range, ObjectManager.Player.Position);
+            }
                 if (drawTarget)
                 {
                     Circle.Draw(Color.Red, ObjectManager.Player.AttackRange, myTarget.Position);
                 }
-
-            }
         }
         public void setUp_spells()
         {
@@ -145,7 +167,6 @@ namespace LeeSin
             this.secondQ = new Spell.Active(SpellSlot.Q, 1800);
             this.flash = new Spell.Targeted(SpellSlot.Summoner1, 400);
             this.placeWard = new Spell.Targeted(SpellSlot.Trinket, 520);
-            this.placeWard2 = new Spell.Targeted(SpellSlot.Trinket, 400); // <-
         }
         public void actives(EventArgs args)
         {
@@ -174,6 +195,8 @@ namespace LeeSin
 
         public void gameUpdate(EventArgs args)
         {
+            Boolean ksSmite = insecMenu["ks.Smite"].Cast<CheckBox>().CurrentValue;
+            Boolean useR = insecMenu["auto.R"].Cast<CheckBox>().CurrentValue;
             if (ObjectManager.Player.Level > actualLevel)
             {
                 actualLevel = ObjectManager.Player.Level;
@@ -188,15 +211,30 @@ namespace LeeSin
                     smite.Cast(mob);
                 }
             }
+            var target = TargetSelector.GetTarget((smite.IsReady()) ? smite.Range : 1, DamageType.True);
+            if (smite.IsInRange(target) && target.IsTargetable && target.Health <= (16 + (8 * ObjectManager.Player.Level)) && ksSmite)
+            {
+                smite.Cast(target);
+            }
+            var autoR = TargetSelector.GetTarget((R.IsReady()) ? R.Range : 1, DamageType.Physical);
+            if (ObjectManager.Player.CalculateDamageOnUnit(target, DamageType.Physical, (float)Rdmg[R.Level]) >= target.Health + 10 && useR)
+            {
+                R.Cast(autoR);
+            }
         
             
         }
         public void laneClear()
         {
-            var minions = ObjectManager.Get<Obj_AI_Minion>().Where(m => m.IsValidTarget(Q.Range) && Q.GetPrediction(m).HitChance >= HitChance.Medium);
+            var minions = ObjectManager.Get<Obj_AI_Minion>().Where(m => m.IsValidTarget(Q.Range));
+            
             if (Q.IsReady() && Q.IsInRange(minions.FirstOrDefault().Position) && Q.GetPrediction(minions.FirstOrDefault()).HitChance >= HitChance.Low)
             {
                 Q.Cast(minions.FirstOrDefault().Position);
+            }
+            if (W.IsReady())
+            {
+                W.Cast(Player.Instance);
             }
             if (E.IsReady() && E.IsInRange(minions.FirstOrDefault().Position))
             {
@@ -226,7 +264,7 @@ namespace LeeSin
             }
             if(W.IsReady())
             {
-                W.Cast();
+                W.Cast(Player.Instance);
             }
             if(Q.IsReady() && Q.IsInRange(sMinion) && Q.GetPrediction(sMinion).HitChance >= HitChance.Low)
             {
@@ -257,7 +295,6 @@ namespace LeeSin
         bool insecQ = false;
         bool castedW = false;
         bool castedQ = false;
-        bool hasStarted = false;
         public AIHeroClient myTarget = null;
 
         public void insec()
@@ -265,12 +302,11 @@ namespace LeeSin
             Boolean useFlash = insecMenu["insec.Flash"].Cast<CheckBox>().CurrentValue;
             var target = TargetSelector.GetTarget((Q.IsReady()) ? Q.Range :1 , DamageType.Physical);
             myTarget = target;
-                if (W.IsInRange(target.Position) && W.IsReady() && !hasStarted)
+                if (W.IsInRange(target.Position) && W.IsReady())
                 {
                     if (wCasted == false)
                     {
                         jump(insec(target).To3D());
-                        hasStarted = true;
                         wCasted = true;
                     }
                     if (wCasted && !castQ && R.IsReady())
@@ -289,12 +325,11 @@ namespace LeeSin
 
                     }
                 }
-                else if (R.IsInRange(target.Position) && useFlash && flash.IsReady() && R.IsReady() && insecQ && !hasStarted)
+                else if (R.IsInRange(target.Position) && useFlash && flash.IsReady() && R.IsReady() && insecQ)
                 {
                     if (!castedR)
                     {
                         R.Cast(target);
-                        hasStarted = true;
                         castedR = true;
                     }
                     if (castedR)
@@ -325,42 +360,40 @@ namespace LeeSin
                 }
                 else
                 {
-                    //if (!castedQ && Q.IsReady())
-                    //{
-                    //    if (Q.GetPrediction(target).HitChance >= HitChance.Collision)
-                    //    {
-                    //        foreach (var minions in ObjectManager.Get<Obj_AI_Minion>().Where(m => m.IsValidTarget(Q.Range) && Q.GetPrediction(m).HitChance >= HitChance.Medium).ToArray())
-                    //        {
-                    //            if (minions.CountEnemiesInRange(Q.Range) <= 1)
-                    //                smite.Cast(minions);
-                    //            Q.Cast(target);
-                    //            hasStarted = true;
-                    //             castedQ = true;
-                    //        }
+                    if (!castedQ && Q.IsReady())
+                    {
+                        if (Q.GetPrediction(target).HitChance >= HitChance.Collision)
+                        {
+                            foreach (var minions in ObjectManager.Get<Obj_AI_Minion>().Where(m => m.IsValidTarget(Q.Range) && Q.GetPrediction(m).HitChance >= HitChance.Medium).ToArray())
+                            {
+                                if (minions.CountEnemiesInRange(Q.Range) <= 1)
+                                    smite.Cast(minions);
+                                Q.Cast(target);
+                                castedQ = true;
+                            }
 
-                    //    }
-                    //    else if (Q.GetPrediction(target).HitChance >= HitChance.Medium)
-                    //    {
-                    //        Q.Cast(target);
-                    //        hasStarted = true;
-                    //        castedQ = true;
-                    //    }
-                    //}
-                    //if (target.HasBuff("BlindMonkQOne") && Q.IsReady() && castedQ)
-                    //{
-                    //    Q.Cast(target);
-                    //}
-                    //if (castedQ && W.IsInRange(insec(target).To3D()) && W.IsReady() && !castedW)
-                    //{
+                        }
+                        else if (Q.GetPrediction(target).HitChance >= HitChance.Medium)
+                        {
+                            Q.Cast(target);
+                            castedQ = true;
+                        }
+                    }
+                    if (target.HasBuff("BlindMonkQOne") && Q.IsReady() && castedQ)
+                    {
+                        Q.Cast(target);
+                    }
+                    if (castedQ && W.IsInRange(insec(target).To3D()) && W.IsReady() && !castedW)
+                    {
 
-                    //        jump(insec(target).To3D());
-                    //        castedW = true;
-                    //}
-                    //if (R.IsInRange(target.Position) && castedW && castedQ && R.IsReady() && !castedR)
-                    //{
-                    //    Core.DelayAction(() => R.Cast(target), 500) ;
-                    //    castedR = true;                
-                    //}
+                        jump(insec(target).To3D());
+                        castedW = true;
+                    }
+                    if (R.IsInRange(target.Position) && castedW && castedQ && R.IsReady() && !castedR)
+                    {
+                        Core.DelayAction(() => R.Cast(target), 500);
+                        castedR = true;
+                    }
                 
             }
         }
