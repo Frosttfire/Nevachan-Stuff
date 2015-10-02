@@ -14,6 +14,7 @@ using SharpDX;
 using System.Threading;
 using System.Net;
 using EloBuddy.SDK.Rendering;
+using System.Diagnostics;
 
 namespace LeeSin
 {
@@ -45,66 +46,67 @@ namespace LeeSin
         public void setUp_Menu()
         {
 
-            string currentVersion = "0.9";
-            Chat.Print("LeeSin - Neva Series LOADED.");
-            Chat.Print("Checking version..");
-            if (new WebClient().DownloadString("http://pastebin.com/raw.php?i=WeD1mMzH") != currentVersion)
-                Chat.Print("OLD VERSION!");
-            else
-                Chat.Print("You have the last version of LeeSin script.");
-            Game.Drop();
-            myMenu = MainMenu.AddMenu("NevaSeries", "title");
-            myMenu.AddLabel("  NevaBudy :D ");
-            myMenu.AddLabel("  SpaceBar for starCombo. ");
-            myMenu.AddLabel("  C for insec. ");
-            myMenu.AddLabel("  T for WardJump. ");
-            myMenu.AddLabel("  V for jungleCLear. ");
-            myMenu.AddLabel("  Z for laneleCLear. ");
+                string currentVersion = "0.95";
+                Chat.Print("LeeSin - Neva Series LOADED.");
+                Chat.Print("Checking version.."); // más adelante xD
+                if (new WebClient().DownloadString("http://pastebin.com/raw.php?i=WeD1mMzH") != currentVersion)// ez no se usar github no es de un amigo hihi si, para el insec,pero no entendia na
+                    Chat.Print("OLD VERSION!");
+                else
+                    Chat.Print("You have the last version of LeeSin script.");
+                Game.Drop();
+                myMenu = MainMenu.AddMenu("NevaSeries", "title");
+                myMenu.AddLabel("  NevaBudy :D ");
+                myMenu.AddLabel("  SpaceBar for starCombo. ");
+                myMenu.AddLabel("  C for insec. ");
+                myMenu.AddLabel("  T for WardJump. ");
+                myMenu.AddLabel("  V for jungleCLear. ");
+                myMenu.AddLabel("  Z for laneleCLear. ");
 
-            myMenu.AddLabel(" More coming soon.. Actual version: 0.9");
+                myMenu.AddLabel(" More coming soon.. Actual version: " + currentVersion);
 
-           comboMenu =myMenu.AddSubMenu("Combo settings","comboSection");
-           comboMenu.AddGroupLabel("Configuration");
-           comboMenu.AddSeparator();
+                comboMenu = myMenu.AddSubMenu("Combo settings", "comboSection");
+                comboMenu.AddGroupLabel("Configuration");
+                comboMenu.AddSeparator();
 
-           comboMenu.Add("combo.Q", new CheckBox("Use Q"));
-           comboMenu.Add("combo.W", new CheckBox("Use W"));
-           comboMenu.Add("combo.R", new CheckBox("Use R"));
-           comboMenu.Add("combo.E", new CheckBox("Use E"));
-           comboMenu.Add("combo.R", new CheckBox("Use R"));
-           comboMenu.Add("auto.R", new CheckBox("Auto R"));
-           comboMenu.Add("ks.R", new CheckBox("R for ks"));
-           comboMenu.Add("ks.Smite", new CheckBox("Smite for ks"));
+                comboMenu.Add("combo.Q", new CheckBox("Use Q"));
+                comboMenu.Add("combo.W", new CheckBox("Use W"));
+                comboMenu.Add("combo.E", new CheckBox("Use E"));
+                comboMenu.Add("combo.R", new CheckBox("Use R"));
+                comboMenu.Add("auto.R", new CheckBox("Auto R"));
+                comboMenu.Add("ks.R", new CheckBox("R ks"));
+                comboMenu.Add("ks.Smite", new CheckBox("Smite ks"));
 
-           smiteMenu = myMenu.AddSubMenu("Smite settings", "smiteSection");
-           smiteMenu.AddGroupLabel("Smite settings");
-                       smiteMenu.AddSeparator();
-           smiteMenu.Add("smite.RED", new CheckBox("Smite RED"));
-           smiteMenu.Add("smite.BLUE", new CheckBox("smite BLUE"));
-           smiteMenu.Add("smite.DRAGON", new CheckBox("smite DRAGON"));
-           smiteMenu.Add("smite.PINKPENISH", new CheckBox("smite BARON"));
-           insecMenu = myMenu.AddSubMenu("Insec settings", "insecSection");
-           insecMenu.Add("insec.Flash", new CheckBox("Use flash"));
-            insecMenu.Add("insec.Smart",new CheckBox("Smart insec"));
-            menuJungle = myMenu.AddSubMenu("Jungle Clear", "jungleSection");
-            menuJungle.AddGroupLabel("Jungle Clear settings");
-            menuJungle.Add("jungle.Q", new CheckBox("Use Q"));
-            menuJungle.Add("jungle.W", new CheckBox("Use W"));
-            menuJungle.Add("jungle.E", new CheckBox("Use E"));
+                smiteMenu = myMenu.AddSubMenu("Smite settings", "smiteSection");
+                smiteMenu.AddGroupLabel("Smite settings");
+                smiteMenu.AddSeparator();
+                smiteMenu.Add("smite.RED", new CheckBox("Smite RED"));
+                smiteMenu.Add("smite.BLUE", new CheckBox("smite BLUE"));
+                smiteMenu.Add("smite.DRAGON", new CheckBox("smite DRAGON"));
+                smiteMenu.Add("smite.PINKPENISH", new CheckBox("smite BARON"));
 
-            draws = myMenu.AddSubMenu("Drawing settings", "drawinsSection");
-            draws.AddGroupLabel("Drawins settings");
-            draws.AddSeparator();
-            draws.Add("draw.Q", new CheckBox("Draw Q range"));
-            draws.Add("draw.W", new CheckBox("Draw W range"));
-            draws.Add("draw.R", new CheckBox("Draw R range"));
-            draws.Add("draw.target", new CheckBox("Draw current Target"));
-            draws.Add("draw.chroma", new CheckBox("CHROMA!"));
-           Game.OnTick += actives;
-           Game.OnUpdate += gameUpdate;
-           Drawing.OnDraw += onDraw;
+                insecMenu = myMenu.AddSubMenu("Insec settings", "insecSection");
+                insecMenu.Add("insec.Flash", new CheckBox("Use flash"));
+
+                menuJungle = myMenu.AddSubMenu("Jungle Clear", "jungleSection");
+                menuJungle.AddGroupLabel("Jungle Clear settings");
+                menuJungle.Add("jungle.Q", new CheckBox("Use Q"));
+                menuJungle.Add("jungle.W", new CheckBox("Use W"));
+                menuJungle.Add("jungle.E", new CheckBox("Use E"));
+
+                draws = myMenu.AddSubMenu("Drawing settings", "drawinsSection");
+                draws.AddGroupLabel("Drawins settings");
+                draws.Add("draw.Q", new CheckBox("Draw Q range"));
+                draws.Add("draw.W", new CheckBox("Draw W range"));
+                draws.Add("draw.R", new CheckBox("Draw R range"));
+                draws.Add("draw.target", new CheckBox("Draw current Target"));
+                draws.Add("draw.damage", new CheckBox("Draw KillAble "));
+                draws.Add("draw.chroma", new CheckBox("CHROMA!"));
+                Game.OnTick += actives;
+                Game.OnUpdate += gameUpdate;
+                Drawing.OnDraw += onDraw;
+ 
         }
-        //public int[] qDmg = new int[] { 0, 200 + (int)(ObjectManager.Player.BaseAttackDamage / 0.9), 400 + (int)(ObjectManager.Player.BaseAttackDamage / 0.9), 600 + (int)(ObjectManager.Player.BaseAttackDamage / 0.9) };
+        public int[] qDmg = new int[] { 0, 200 + (int)(ObjectManager.Player.BaseAttackDamage / 0.9), 400 + (int)(ObjectManager.Player.BaseAttackDamage / 0.9), 600 + (int)(ObjectManager.Player.BaseAttackDamage / 0.9) };
         //public void qKs(EventArgs args)
         //{            
            
@@ -126,14 +128,13 @@ namespace LeeSin
             Boolean drawR = draws["draw.R"].Cast<CheckBox>().CurrentValue;
             Boolean drawTarget = draws["draw.target"].Cast<CheckBox>().CurrentValue;
             Boolean chroma = draws["draw.chroma"].Cast<CheckBox>().CurrentValue;
+            Boolean KillAble = draws["draw.damage"].Cast<CheckBox>().CurrentValue;
             if (drawQ)
             {
-
-                    if(chroma)
+                   if(chroma) // epilepsia
                         Circle.Draw(drawSettings[new Random().Next(0,drawSettings.Count)], Q.Range, ObjectManager.Player.Position);
                     else 
                 Circle.Draw(Color.Green, Q.Range, ObjectManager.Player.Position);
-
 
             }
             if (drawW)
@@ -153,8 +154,29 @@ namespace LeeSin
             }
                 if (drawTarget)
                 {
+                    if (myTarget == null)
+                        return;
                     Circle.Draw(Color.Red, ObjectManager.Player.AttackRange, myTarget.Position);
                 }
+                if (KillAble)
+                {
+                    if (myTarget == null)
+                        return;
+                    if (getComboDmg(myTarget) <= 0)
+                    {                 
+                        Drawing.DrawText(myTarget.Position.X,myTarget.Position.Y,System.Drawing.Color.Red ,"KillAble with Combo");
+                    }
+                    else
+                    {
+                        
+                        Drawing.DrawText(myTarget.Position.X, myTarget.Position.Y, System.Drawing.Color.Red, "Might be killed with combo and " +getComboDmg(myTarget) / ObjectManager.Player.BaseAttackDamage + " basics");
+                    }
+                }
+
+        }
+        public int getComboDmg(Obj_AI_Base target)
+        {
+            return Convert.ToInt32(ObjectManager.Player.CalculateDamageOnUnit(target, DamageType.Physical, DamageLibrary.GetSpellDamage(Player.Instance, target, SpellSlot.Q) + DamageLibrary.GetSpellDamage(Player.Instance, target, SpellSlot.E) +DamageLibrary.GetSpellDamage(Player.Instance, target, SpellSlot.R)));
         }
         public void setUp_spells()
         {
@@ -195,8 +217,8 @@ namespace LeeSin
 
         public void gameUpdate(EventArgs args)
         {
-            Boolean ksSmite = insecMenu["ks.Smite"].Cast<CheckBox>().CurrentValue;
-            Boolean useR = insecMenu["auto.R"].Cast<CheckBox>().CurrentValue;
+            //Boolean ksSmite = insecMenu["ks.Smite"].Cast<CheckBox>().CurrentValue;
+            //Boolean useR = insecMenu["combo.R"].Cast<CheckBox>().CurrentValue;
             if (ObjectManager.Player.Level > actualLevel)
             {
                 actualLevel = ObjectManager.Player.Level;
@@ -211,16 +233,16 @@ namespace LeeSin
                     smite.Cast(mob);
                 }
             }
-            var target = TargetSelector.GetTarget((smite.IsReady()) ? smite.Range : 1, DamageType.True);
-            if (smite.IsInRange(target) && target.IsTargetable && target.Health <= (16 + (8 * ObjectManager.Player.Level)) && ksSmite)
-            {
-                smite.Cast(target);
-            }
-            var autoR = TargetSelector.GetTarget((R.IsReady()) ? R.Range : 1, DamageType.Physical);
-            if (ObjectManager.Player.CalculateDamageOnUnit(target, DamageType.Physical, (float)Rdmg[R.Level]) >= target.Health + 10 && useR)
-            {
-                R.Cast(autoR);
-            }
+            //var target = TargetSelector.GetTarget((smite.IsReady()) ? smite.Range : 1, DamageType.True);
+            //if (smite.IsInRange(target) && target.IsTargetable && target.Health <= (16 + (8 * ObjectManager.Player.Level)) && ksSmite)
+            //{
+            //    smite.Cast(target);
+            //}
+            //var autoR = TargetSelector.GetTarget((R.IsReady()) ? R.Range : 1, DamageType.Physical);
+            //if (ObjectManager.Player.CalculateDamageOnUnit(target, DamageType.Physical, (float)Rdmg[R.Level]) >= target.Health + 10 && useR)
+            //{
+            //    R.Cast(autoR);
+            //}
         
             
         }
@@ -258,6 +280,8 @@ namespace LeeSin
             var minions = ObjectManager.Get<Obj_AI_Minion>().Where(minion => minion.IsValid && MinionNames.Any(name => minion.Name.StartsWith(name)) && !MinionNames.Any(name => minion.Name.Contains("Mini")) && !MinionNames.Any(name => minion.Name.Contains("Spawn")));
             var objAiMinions = minions as Obj_AI_Minion[] ?? minions.ToArray();
             Obj_AI_Minion sMinion = objAiMinions.FirstOrDefault();
+            if (sMinion == null)
+                return;
             if(E.IsInRange(sMinion) && E.IsReady())
             {
                 E.Cast();
@@ -301,10 +325,10 @@ namespace LeeSin
         {
             Boolean useFlash = insecMenu["insec.Flash"].Cast<CheckBox>().CurrentValue;
             var target = TargetSelector.GetTarget((Q.IsReady()) ? Q.Range :1 , DamageType.Physical);
-            myTarget = target;
+            myTarget = target; // es desde 0,queria basarme en el de fa pero no lo entendía por que llamaba a muchas mierdas y la api no era igual xD
                 if (W.IsInRange(target.Position) && W.IsReady())
                 {
-                    if (wCasted == false)
+                    if (wCasted == false) // si
                     {
                         jump(insec(target).To3D());
                         wCasted = true;
@@ -327,7 +351,7 @@ namespace LeeSin
                 }
                 else if (R.IsInRange(target.Position) && useFlash && flash.IsReady() && R.IsReady() && insecQ)
                 {
-                    if (!castedR)
+                    if (!castedR) // aqui lo hago bien xD
                     {
                         R.Cast(target);
                         castedR = true;
@@ -366,7 +390,7 @@ namespace LeeSin
                         {
                             foreach (var minions in ObjectManager.Get<Obj_AI_Minion>().Where(m => m.IsValidTarget(Q.Range) && Q.GetPrediction(m).HitChance >= HitChance.Medium).ToArray())
                             {
-                                if (minions.CountEnemiesInRange(Q.Range) <= 1)
+                                if (minions.CountEnemiesInRange(Q.Range) <= 1) // si down xD
                                     smite.Cast(minions);
                                 Q.Cast(target);
                                 castedQ = true;
@@ -443,8 +467,12 @@ namespace LeeSin
             Boolean useW = comboMenu["combo.W"].Cast<CheckBox>().CurrentValue;
             Boolean useR = comboMenu["combo.R"].Cast<CheckBox>().CurrentValue;
             Boolean useE = comboMenu["combo.E"].Cast<CheckBox>().CurrentValue;
-            Boolean rKs = comboMenu["ks.R"].Cast<CheckBox>().CurrentValue;
+          //  Boolean rKs = comboMenu["ks.R"].Cast<CheckBox>().CurrentValue;
+            //Boolean useHydra = comboMenu["combo.Hydra"].Cast<CheckBox>().CurrentValue;
             var target = TargetSelector.GetTarget((useQ && Q.IsReady()) ? Q.Range : (R.Range + 100), DamageType.Physical);
+            if (target == null)
+                return;
+     //       var hydra = new Item(3074, 420);
             myTarget = target;
             if (E.IsReady() && E.IsInRange(target) && useE)
             {
@@ -452,13 +480,9 @@ namespace LeeSin
             }
             if (useR && R.IsReady() || ObjectManager.Player.CalculateDamageOnUnit(target, DamageType.Physical, (float)Rdmg[R.Level]) > target.Health)
             {
-
                 if (Q.GetPrediction(target).HitChance >= HitChance.Medium && Q.IsReady() )
-                    {
-                        
-
-                        R.Cast(target);
-                        
+                    {                      
+                        R.Cast(target);                       
                     }
             }
             if (useQ && Q.IsReady())
@@ -476,12 +500,15 @@ namespace LeeSin
                      if (Q.GetPrediction(target).HitChance >= HitChance.Medium )
                     {
                         Q.Cast(target);
-                      //  smite.Cast(target);
+                        smite.Cast(target);
 
                     }
                 
             }
-
+            if (useW)
+            {
+                W.Cast(Player.Instance);
+            }
 
 
         }
