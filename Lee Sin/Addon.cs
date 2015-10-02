@@ -41,12 +41,11 @@ namespace LeeSin
         {
             setUp_Menu();
             setUp_spells();
-
         }
         public void setUp_Menu()
         {
 
-                string currentVersion = "0.95";
+                string currentVersion = "0.955";
                 Chat.Print("LeeSin - Neva Series LOADED.");
                 Chat.Print("Checking version.."); // más adelante xD
                 if (new WebClient().DownloadString("http://pastebin.com/raw.php?i=WeD1mMzH") != currentVersion)// ez no se usar github no es de un amigo hihi si, para el insec,pero no entendia na
@@ -158,20 +157,20 @@ namespace LeeSin
                         return;
                     Circle.Draw(Color.Red, ObjectManager.Player.AttackRange, myTarget.Position);
                 }
-                if (KillAble)
-                {
-                    if (myTarget == null)
-                        return;
-                    if (getComboDmg(myTarget) <= 0)
-                    {                 
-                        Drawing.DrawText(myTarget.Position.X,myTarget.Position.Y,System.Drawing.Color.Red ,"KillAble with Combo");
-                    }
-                    else
-                    {
+                //if (KillAble)
+                //{
+                //    if (myTarget == null)
+                //        return;
+                //    if (getComboDmg(myTarget) <= 0)
+                //    {                 
+                //        Drawing.DrawText(myTarget.Position.X,myTarget.Position.Y,System.Drawing.Color.Red ,"KillAble with Combo");
+                //    }
+                //    else
+                //    {
                         
-                        Drawing.DrawText(myTarget.Position.X, myTarget.Position.Y, System.Drawing.Color.Red, "Might be killed with combo and " +getComboDmg(myTarget) / ObjectManager.Player.BaseAttackDamage + " basics");
-                    }
-                }
+                //        Drawing.DrawText(myTarget.Position.X, myTarget.Position.Y, System.Drawing.Color.Red, "Might be killed with combo and " +getComboDmg(myTarget) / ObjectManager.Player.BaseAttackDamage + " basics");
+                //    }
+                //}
 
         }
         public int getComboDmg(Obj_AI_Base target)
