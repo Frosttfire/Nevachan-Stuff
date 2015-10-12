@@ -1,0 +1,10 @@
+C:\Users\Nevachana\Documents\Visual Studio 2013\Projects\Kindred\Kindred\bin\Debug\Kindred.exe.config
+C:\Users\Nevachana\Documents\Visual Studio 2013\Projects\Kindred\Kindred\bin\Debug\Kindred.exe
+C:\Users\Nevachana\Documents\Visual Studio 2013\Projects\Kindred\Kindred\bin\Debug\Kindred.pdb
+C:\Users\Nevachana\Documents\Visual Studio 2013\Projects\Kindred\Kindred\bin\Debug\EloBuddy.dll
+C:\Users\Nevachana\Documents\Visual Studio 2013\Projects\Kindred\Kindred\bin\Debug\EloBuddy.SDK.dll
+C:\Users\Nevachana\Documents\Visual Studio 2013\Projects\Kindred\Kindred\bin\Debug\SharpDX.dll
+C:\Users\Nevachana\Documents\Visual Studio 2013\Projects\Kindred\Kindred\bin\Debug\SharpDX.Direct3D9.dll
+C:\Users\Nevachana\Documents\Visual Studio 2013\Projects\Kindred\Kindred\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Nevachana\Documents\Visual Studio 2013\Projects\Kindred\Kindred\obj\Debug\Kindred.exe
+C:\Users\Nevachana\Documents\Visual Studio 2013\Projects\Kindred\Kindred\obj\Debug\Kindred.pdb
