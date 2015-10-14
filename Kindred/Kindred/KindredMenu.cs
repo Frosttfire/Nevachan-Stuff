@@ -31,14 +31,14 @@ namespace Kindred
         {
             myMenu= MainMenu.AddMenu("NevaSeries", "main");
             myMenu.AddLabel(" | Advanced Kindred Addon | By Nevachana");
-            myMenu.AddLabel(" ~ Press space for Combo");
-            myMenu.AddLabel(" ~ Press z for LaneClear");
-            myMenu.AddLabel(" ~ Press v for JungleClear");
-            myMenu.AddLabel(" ~ Press t for Flee");
+            myMenu.AddLabel(" ~ Press Space for Combo");
+            myMenu.AddLabel(" ~ Press Z for LaneClear");
+            myMenu.AddLabel(" ~ Press V for JungleClear");
+            myMenu.AddLabel(" ~ Press T for Flee");
         }
         public void SkinPage()
         {
-            skinPage = myMenu.AddSubMenu("Skin settings", "skin");
+            skinPage = myMenu.AddSubMenu("Skin Settings", "skin");
             skinPage.AddGroupLabel("Skin settings");
             skinPage.AddSeparator();
             skinPage.Add("skin.Id", new Slider("Skin Editor", 0, 0, 15));
@@ -55,11 +55,11 @@ namespace Kindred
            comboMenu.Add("combo.Botrk", new CheckBox("Use Botrk"));
            comboMenu.Add("combo.Youmus", new CheckBox("Use Youmuss"));
            comboMenu.AddSeparator();
-           comboMenu.AddGroupLabel("Utilities settings");
+           comboMenu.AddGroupLabel("Utilities Settings");
            comboMenu.AddSeparator();
-           comboMenu.Add("combo.Rmin", new Slider("Min enemys in rangue R", 3, 1, 5));
-           comboMenu.Add("combo.Qmin", new Slider("Play safe when Hp (%) is lower than", 60, 1, 100));
-           comboMenu.Add("combo.QminAG", new Slider("Play safe when enemys in range", 3, 1, 5));
+           comboMenu.Add("combo.Rmin", new Slider("Min enemies in range for R", 3, 1, 5));
+           comboMenu.Add("combo.Qmin", new Slider("Play safe when HP (%) is lower than", 60, 1, 100));
+           comboMenu.Add("combo.QminAG", new Slider("Play safe when enemies in range", 3, 1, 5));
         }
         public void laneClearPage()
         {
@@ -73,7 +73,7 @@ namespace Kindred
         public void junglePage()
         {
             jungleMenu = myMenu.AddSubMenu("Jungle Settings","Jungle");
-            jungleMenu.AddGroupLabel("Jungle Settings");
+            jungleMenu.AddGroupLabel("Jungle settings");
             jungleMenu.AddSeparator();
             jungleMenu.Add("jungle.Q", new CheckBox("Use Q jungle"));
             jungleMenu.Add("jungle.W", new CheckBox("Use E jungle"));
@@ -83,7 +83,7 @@ namespace Kindred
         public void drawingsPage()
         {
             drawingsMenu = myMenu.AddSubMenu("Drawings Settings", "Drawings");
-            drawingsMenu.AddGroupLabel("Drawing Skills");
+            drawingsMenu.AddGroupLabel("Drawing skills");
             drawingsMenu.AddSeparator();
             drawingsMenu.Add("draw.Q", new CheckBox("Draw Q range"));
             drawingsMenu.Add("draw.W", new CheckBox("Draw W range"));
@@ -100,11 +100,11 @@ namespace Kindred
             itemsMenu.AddGroupLabel("Items usage");
             itemsMenu.AddSeparator();
             itemsMenu.AddGroupLabel("Youmuss");
-            itemsMenu.Add("items.Youmuss.HP", new Slider("Use Youmuss if hp is lower than (%)", 60, 1, 100));
-            itemsMenu.Add("items.Youmuss.Enemys", new Slider("Use Youmuss if enemys in range", 2, 1, 5));
+            itemsMenu.Add("items.Youmuss.HP", new Slider("Use Youmuss if HP is lower than (%)", 60, 1, 100));
+            itemsMenu.Add("items.Youmuss.Enemys", new Slider("Use Youmuss if enemies in range", 2, 1, 5));
             itemsMenu.AddSeparator();
             itemsMenu.AddGroupLabel("Botrk");
-            itemsMenu.Add("items.Botrk.HP", new Slider("Use Botrk if hp is lower than (%)", 30, 1, 100));        
+            itemsMenu.Add("items.Botrk.HP", new Slider("Use Botrk if HP is lower than (%)", 30, 1, 100));        
         }
         public void SmitePage()
         {
@@ -129,8 +129,8 @@ namespace Kindred
             spellsPage.AddGroupLabel("Heal settings");
             spellsPage.Add("spells.Heal.Hp", new Slider("Use Heal when HP is lower than (%)", 30, 1, 100));
             spellsPage.AddGroupLabel("Ignite settings");
-            spellsPage.Add("spells.Ignite.Focus", new Slider("Use Ignire when target HP isl lower than (%)", 10, 1, 100));
-            spellsPage.Add("spells.Ignite.Kill", new CheckBox("Use ignite if killable"));
+            spellsPage.Add("spells.Ignite.Focus", new Slider("Use Ignite when target HP is lower than (%)", 10, 1, 100));
+            spellsPage.Add("spells.Ignite.Kill", new CheckBox("Use Ignite if killable"));
         }
         public void FleePage()
         {
@@ -147,18 +147,18 @@ namespace Kindred
             utilitiesPage.AddLabel("Note: this will be auto-activated");
             utilitiesPage.AddGroupLabel("R settings");
             utilitiesPage.AddSeparator();
-            utilitiesPage.Add("tools.R.Enemys", new Slider("Auto R if there are enemys in range", 3, 0, 5));
+            utilitiesPage.Add("tools.R.Enemys", new Slider("Auto R if there are enemies in range", 3, 0, 5));
             utilitiesPage.Add("tools.R.Hp", new Slider("Auto R if hp is lower than", 20, 1, 100));
         }
         public void KsPage()
         {
             ksPage = myMenu.AddSubMenu("KS settings", "ks");
-            ksPage.AddGroupLabel("Ks settings");
+            ksPage.AddGroupLabel("KS settings");
             ksPage.AddSeparator();
-            ksPage.Add("ks.Q", new CheckBox("Ks using Q"));
-            ksPage.Add("ks.W", new CheckBox("Ks using W"));
-            ksPage.Add("ks.E", new CheckBox("Ks using E"));
-            ksPage.Add("ks.Smite", new CheckBox("Ks using Smite"));
+            ksPage.Add("ks.Q", new CheckBox("KS using Q"));
+            ksPage.Add("ks.W", new CheckBox("KS using W"));
+            ksPage.Add("ks.E", new CheckBox("KS using E"));
+            ksPage.Add("ks.Smite", new CheckBox("KS using Smite"));
         }
 
         public static float itemsYOUMUSShp()
